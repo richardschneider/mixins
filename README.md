@@ -9,7 +9,7 @@ In particular, I want to combine multiple objects and/or properties from my data
 
 My service layer provides a `Contact` and a `Address` object, but for the API consumer I want the address to be included into contact that I return to the consumer.  For example
 
-    [Route(contact/{id:int}]
+    [Route("contact/{id:int}"]
     public Mixin Read(int id)
     {
       return new Mixin
