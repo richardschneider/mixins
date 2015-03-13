@@ -1,6 +1,6 @@
 # mixins
 
-Creates an instance that is a composite of multiple objects and/or properties.  Basically a poor man's multiple inheritence that is aimed at serialisation and deserialisation of object graphs.
+Creates an instance that is a composite of multiple objects and/or properties.  Basically a poor man's multiple inheritence that is aimed at serialisation and deserialisation of object graphs. See [Wikipedia mixins](http://en.wikipedia.org/wiki/Mixin) for more details.
 
 ## Story
 
