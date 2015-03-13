@@ -1,5 +1,9 @@
 # mixins
 
+Creates an instance that is a composite of multiple objects and/or properties.  Basically a poor man's multiple inheritence that is aimed at serialisation and deserialisation of object graphs.
+
+## Story
+
 * **As a** Web API developer
 * **I want** to easily create composite objects
 * **So that** I can avoid writing tedeaoous codes that maps/converts multiple objects into one.
