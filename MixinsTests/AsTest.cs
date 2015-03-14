@@ -24,6 +24,11 @@ namespace Sepia.Dynamic
             public string Phone { get; set; }
         }
 
+        public class Contact3 : Contact2
+        {
+            public int Rating { get; set; }
+        }
+
         public class Address
         {
             public string Street { get; set; }
@@ -61,5 +66,19 @@ namespace Sepia.Dynamic
             Assert.AreEqual("+64 4 ...", me.Phone);
         }
 
+        [TestMethod]
+        public void New_Instance_Is_Populated_With_Converted_Values()
+        {
+            var mixin = new Mixin()
+                .With("Name", "me")
+                .With("MailTo", "me@somewhere.org")
+                .With("Phone", "+64 4 ...")
+                .With("Rating", "3");
+            var me = mixin.As<Contact3>();
+            Assert.AreEqual("me", me.Name);
+            Assert.AreEqual("me@somewhere.org", me.MailTo);
+            Assert.AreEqual("+64 4 ...", me.Phone);
+            Assert.AreEqual(3, me.Rating);
+        }
     }
 }

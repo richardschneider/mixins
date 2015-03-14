@@ -23,6 +23,12 @@ namespace Sepia.Dynamic
             public string MailTo { get; set; }
         }
 
+        public class Birth
+        {
+            public string Date { get; set; }
+            public string City { get; set; }
+        }
+
         public class Address
         {
             public string Street { get; set; }
@@ -80,7 +86,10 @@ namespace Sepia.Dynamic
         public void Mixin_XML_Same_As_Object()
         {
             var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
-            dynamic mixin = new Mixin().With(me);
+            dynamic mixin = new Mixin()
+                .With(me)
+                .With("Phone", "+64 4 ...")
+                .With("Birth", new Birth { City = "Boston", Date = "19xx-08-14" });
 
             var xml1 = Serialize(me);
             var xml2 = Serialize(mixin);

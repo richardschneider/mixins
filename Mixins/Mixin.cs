@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Dynamic;
@@ -10,7 +11,7 @@ namespace Sepia.Dynamic
     /// <summary>
     ///   Contains a combination of members from other class instances and runtime properties.
     /// </summary>
-    public class Mixin : DynamicObject
+    public partial class Mixin : DynamicObject
     {
         Dictionary<string, object> members = new Dictionary<string, object>();
         List<object> instances = new List<object>();
@@ -101,7 +102,11 @@ namespace Sepia.Dynamic
                 var info = instance.GetType().GetProperty(memberName);
                 if (info != null && info.CanWrite)
                 {
-                    info.SetValue(instance, members[memberName], null);
+                    var value = members[memberName];
+                    if (info.PropertyType == value.GetType())
+                        info.SetValue(instance, value, null);
+                    else
+                        info.SetValue(instance, Convert.ChangeType(value, info.PropertyType, CultureInfo.InvariantCulture), null);
                     members.Remove(memberName);
                 }
             }
@@ -157,7 +162,10 @@ namespace Sepia.Dynamic
                 var info = instance.GetType().GetProperty(binder.Name);
                 if (info != null)
                 {
-                    info.SetValue(instance, value, null);
+                    if (info.PropertyType == value.GetType())
+                        info.SetValue(instance, value, null);
+                    else
+                        info.SetValue(instance, Convert.ChangeType(value, info.PropertyType, CultureInfo.InvariantCulture), null);
                     return true;
                 }
             }

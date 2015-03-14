@@ -18,6 +18,7 @@ namespace Sepia.Dynamic
         {
             public string Name { get; set; }
             public string MailTo { get; set; }
+            public int Rating { get; set; }
             protected string ProtectedProperty { get; set; }
             private string PrivateProperty { get; set; }
             public static string StaticProperty { get; set; }
@@ -68,6 +69,19 @@ namespace Sepia.Dynamic
             dynamic o = new Mixin().With(me);
             Assert.AreEqual("me", o.Name);
             Assert.AreEqual("me@somewhere.org", o.MailTo);
+        }
+
+        [TestMethod]
+        public void Object_Properties_Are_Implicitly_Converted()
+        {
+            var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
+            dynamic o = new Mixin().With(me);
+            Assert.AreEqual(0, o.Rating);
+            Assert.AreEqual(0, me.Rating);
+
+            o.Rating = "3";
+            Assert.AreEqual(3, o.Rating);
+            Assert.AreEqual(3, me.Rating);
         }
 
         [TestMethod]
