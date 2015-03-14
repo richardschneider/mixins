@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace Sepia.Mixins
 {
     /// <summary>
-    ///   JSON serialisation/deserialisation test for <see cref="Sepia.Mixins.ExpandoExtensions"/>.
+    ///   JSON serialisation/deserialisation test for <see cref="Mixin"/>.
     /// </summary>
     [TestClass]
     public class JsonTest

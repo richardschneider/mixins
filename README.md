@@ -1,4 +1,4 @@
-# mixins
+# Welcome to Mixins
 
 Creates an instance that is a composite of multiple objects and/or properties.  Basically a poor man's multiple inheritence that is aimed at serialisation and deserialisation of object graphs. See [Wikipedia mixins](http://en.wikipedia.org/wiki/Mixin) for more details.
 
@@ -21,5 +21,16 @@ public Mixin Read(int id)
      .With("_self", BaseUrl + "contact/" + id)
      .With(service.GetContact(id))
      .With(service.GetContactAddress(id));
+}
+
+[Route("contact"), HttpPost]
+public string Create(Mixin mixin)
+{
+  var id = service.CreateContact(mixin.As<Contact>());
+  var address = mixin.As<Address>();
+  address.ContactId = id;
+  service.CreateContactAddress(address);
+
+  return id;
 }
 ```

@@ -12,7 +12,7 @@ using System.IO;
 namespace Sepia.Mixins
 {
     /// <summary>
-    ///   XML serialisation/deserialisation test for <see cref="Sepia.Mixins.ExpandoExtensions"/>.
+    ///   XML serialisation/deserialisation test for <see cref="Mixin"/>.
     /// </summary>
     [TestClass]
     public class XmlTest

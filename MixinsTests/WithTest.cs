@@ -9,7 +9,7 @@ using Microsoft.CSharp.RuntimeBinder;
 namespace Sepia.Mixins
 {
     /// <summary>
-    ///   Basic tests for <see cref="Sepia.Mixins.ExpandoExtensions"/>.
+    ///   Basic tests for <see cref="Mixin"/>.
     /// </summary>
     [TestClass]
     public class WithTest

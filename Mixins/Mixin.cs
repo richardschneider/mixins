@@ -72,7 +72,52 @@ namespace Sepia.Mixins
             return this;
         }
 
+        /// <summary>
+        ///   Converts the dynamic mixin into a specific type.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> to cast to.</typeparam>
+        /// <returns>
+        ///   An instance of <typeparamref name="T"/>.
+        /// </returns>
+        /// <remarks>
+        ///   If an instance of <typeparamref name="T"/> is already associated with the mixin (via the <see cref="With(object)"/>
+        ///   method, then it is returned.  Otherwise, a new instance of <typeparamref name="T"/> is created and any property is
+        ///   set that has a corresponding name in the mixin.
+        ///   
+        ///   The <b>Mixin</b> is bound to the returned instance.  Any changes to an instance property is also reflected
+        ///   in the mixin object.
+        /// </remarks>
+        public T As<T>() where T : new()
+        {
+            // Is an instance of this type already available?
+            var instance = instances.OfType<T>().FirstOrDefault();
+            if (instance != null)
+                return instance;
+
+            // Create new instance and populate the properties.
+            instance = new T();
+            foreach (var memberName in members.Keys.ToArray())
+            {
+                var info = instance.GetType().GetProperty(memberName);
+                if (info != null && info.CanWrite)
+                {
+                    info.SetValue(instance, members[memberName], null);
+                    members.Remove(memberName);
+                }
+            }
+
+            this.With(instance);
+
+            return instance;
+        }
+
         /// <inheritdoc />
+        /// <remarks>
+        ///   This method is implemented by using deferred execution. The immediate return value is an object that 
+        ///   stores all the information that is required to perform the action. The query represented by this method 
+        ///   is not executed until the object is enumerated either by calling its <b>GetEnumerator</b> method directly 
+        ///   or by using <c>foreach</c>.
+        /// </remarks>
         public override IEnumerable<string> GetDynamicMemberNames()
         {
             return instances.SelectMany(i => i.GetType().GetMembers().Select(m => m.Name))
