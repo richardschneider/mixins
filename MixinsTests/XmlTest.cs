@@ -80,7 +80,7 @@ namespace Sepia.Mixins
         public void Mixin_XML_Same_As_Object()
         {
             var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
-            dynamic mixin = new ExpandoObject().With(me);
+            dynamic mixin = new Mixin().With(me);
 
             var xml1 = Serialize(me);
             var xml2 = Serialize(mixin);

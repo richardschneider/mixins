@@ -32,7 +32,7 @@ namespace Sepia.Mixins
         public void Mixin_JSON_Same_As_Object()
         {
             var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
-            dynamic mixin = new ExpandoObject().With(me);
+            dynamic mixin = new Mixin().With(me);
 
             var json1 = JsonConvert.SerializeObject(me);
             var json2 = JsonConvert.SerializeObject(mixin);
