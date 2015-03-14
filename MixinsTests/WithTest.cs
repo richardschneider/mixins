@@ -9,7 +9,7 @@ using Microsoft.CSharp.RuntimeBinder;
 namespace Sepia.Mixins
 {
     /// <summary>
-    ///   Basic tests for <see cref="Sepia.Mixins.MixinExtensions"/>.
+    ///   Basic tests for <see cref="Sepia.Mixins.ExpandoExtensions"/>.
     /// </summary>
     [TestClass]
     public class WithTest
@@ -20,6 +20,14 @@ namespace Sepia.Mixins
             public string MailTo { get; set; }
             protected string ProtectedProperty { get; set; }
             private string PrivateProperty { get; set; }
+            public static string StaticProperty { get; set; }
+            public string ReadOnly { get; private set; }
+            public string WriteOnly { private get; set; }
+        }
+
+        class Contact2 : Contact
+        {
+            public string NickName { get; set; }
         }
 
         class Address
@@ -63,6 +71,49 @@ namespace Sepia.Mixins
         }
 
         [TestMethod]
+        public void Object_Properties_Must_Have_Public_Getter()
+        {
+            var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
+            dynamic o = new ExpandoObject().With(me);
+            var x = (IDictionary<string, object>)o;
+            Assert.IsTrue(x.ContainsKey("Name"));
+            Assert.IsTrue(x.ContainsKey("MailTo"));
+            Assert.IsTrue(x.ContainsKey("ReadOnly"));
+            Assert.IsFalse(x.ContainsKey("WriteOnly"));
+        }
+
+        [TestMethod]
+        public void Inherited_Object_Properties_Are_Added()
+        {
+            var me = new Contact2 { Name = "me", MailTo = "me@somewhere.org", NickName = "baz" };
+            dynamic o = new ExpandoObject().With(me);
+            Assert.AreEqual("me", o.Name);
+            Assert.AreEqual("me@somewhere.org", o.MailTo);
+            Assert.AreEqual("baz", o.NickName);
+        }
+
+        [TestMethod]
+        public void Anonymous_Classes_Are_Added()
+        {
+            var me = new { Name = "me", MailTo = "me@somewhere.org" };
+            dynamic o = new ExpandoObject().With(me);
+            Assert.AreEqual("me", o.Name);
+            Assert.AreEqual("me@somewhere.org", o.MailTo);
+        }
+
+        [TestMethod]
+        public void Expandos_Are_Added()
+        {
+            dynamic me = new ExpandoObject();
+            me.Name = "me";
+            me.MailTo = "me@somewhere.org";
+
+            dynamic o = ExpandoExtensions.With(new ExpandoObject(), me);
+            Assert.AreEqual("me", o.Name);
+            Assert.AreEqual("me@somewhere.org", o.MailTo);
+        }
+
+        [TestMethod]
         public void Protected_Object_Properties_Are_Not_Added()
         {
             var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
@@ -82,6 +133,17 @@ namespace Sepia.Mixins
             Assert.IsTrue(x.ContainsKey("Name"));
             Assert.IsTrue(x.ContainsKey("MailTo"));
             Assert.IsFalse(x.ContainsKey("PrivateProperty"));
+        }
+
+        [TestMethod]
+        public void Static_Object_Properties_Are_Not_Added()
+        {
+            var me = new Contact { Name = "me", MailTo = "me@somewhere.org" };
+            dynamic o = new ExpandoObject().With(me);
+            var x = (IDictionary<string, object>)o;
+            Assert.IsTrue(x.ContainsKey("Name"));
+            Assert.IsTrue(x.ContainsKey("MailTo"));
+            Assert.IsFalse(x.ContainsKey("StaticProperty"));
         }
 
         [TestMethod]
