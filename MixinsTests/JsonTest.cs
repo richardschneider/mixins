@@ -8,7 +8,7 @@ using Microsoft.CSharp.RuntimeBinder;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Sepia.Mixins
+namespace Sepia.Dynamic
 {
     /// <summary>
     ///   JSON serialisation/deserialisation test for <see cref="Mixin"/>.

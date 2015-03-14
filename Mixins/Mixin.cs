@@ -5,7 +5,7 @@ using System.Text;
 using System.Dynamic;
 using System.Reflection;
 
-namespace Sepia.Mixins
+namespace Sepia.Dynamic
 {
     /// <summary>
     ///   Contains a combination of members from other class instances and runtime properties.

@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Dynamic;
 
-namespace Sepia.Mixins
+namespace Sepia.Dynamic
 {
     /// <summary>
     ///   Conversion test for <see cref="Mixin"/>.

@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Dynamic;
 using Microsoft.CSharp.RuntimeBinder;
 
-namespace Sepia.Mixins
+namespace Sepia.Dynamic
 {
     /// <summary>
     ///   Basic tests for <see cref="Mixin"/>.

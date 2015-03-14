@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace Sepia.Mixins
+namespace Sepia.Dynamic
 {
     /// <summary>
     ///   XML serialisation/deserialisation test for <see cref="Mixin"/>.
